@@ -1,2 +1,7 @@
-# Tucil3_13521055_13521082
-UCS and A* Algorithm Implementation to Determine the Shortest Path
+# UCS and A* Algorithm Implementation to Determine the Shortest Path
+
+## Authors
+| Nama                           | NIM      |
+| ------------------------------ | -------- |
+| Muhammad Bangkit Dwi Cahyono   | 13521055 |
+| Farizki Kurniawan              | 13521082 |
