@@ -23,8 +23,16 @@ class GraphVisualizer:
         self.coords = {}
         self.filename = None
 
+        self.window.protocol("WM_DELETE_WINDOW", self.on_closing)
+
         # Create the GUI
         self.create_gui()
+
+    def on_closing(self):
+        # Ask the user to confirm whether to close the window or not
+        if messagebox.askokcancel("Quit", "Do you want to quit?"):
+            # Destroy
+            self.window.destroy()
         
     def create_gui(self):
         canvas = Canvas(
