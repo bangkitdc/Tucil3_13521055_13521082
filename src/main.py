@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import UCS
 
 class GraphVisualizer:
     def __init__(self):
@@ -74,7 +75,6 @@ class GraphVisualizer:
         node_names = lines[-1].split()
         node_labels = {i: name for i, name in enumerate(node_names)}
         G = nx.relabel_nodes(G, node_labels)
-                    
         # Get the start and end nodes from the user input
         if len(self.start_entry.get()) != 0 and len(self.end_entry.get()) != 0:
             start_node = self.start_entry.get()
@@ -86,10 +86,13 @@ class GraphVisualizer:
         # Get the shortest path between the start and end nodes
         # Todo: THE ALGORITHMS
         try:
-            shortest_path = nx.shortest_path(G, start_node, end_node, weight='weight')
+            # shortest_path = nx.shortest_path(G, start_node, end_node, weight='weight')
+            shortest_path = UCS.UCS(G, start_node, end_node)
         except nx.NetworkXNoPath:
             messagebox.showwarning("No Path Found", "There is no path between the start and end nodes.")
             return
+        except ValueError:
+            messagebox.showwarning("No Path Found", "There is no path between the start and end nodes.")
         
         # Draw the graph on canvas
         pos = nx.spring_layout(G)
