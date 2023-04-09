@@ -24,18 +24,19 @@ def UCS(G, start, end):
         cur_node = top[1]
         cur_parent = top[2]
         
-        visited[cur_node]=True
-        parent[cur_node]=cur_parent
+        if not visited[cur_node]:
+            visited[cur_node]=True
+            parent[cur_node]=cur_parent
+            
+            # Path found
+            if top[1]==end:
+                break
+            
+            # Add to priority queue
+            for neighbor in G[cur_node]:
+                if(not visited[neighbor]):
+                    queue.append([cur_length + G[cur_node][neighbor]['weight'], neighbor, cur_node])
         
-        # Path found
-        if top[1]==end:
-            break
-        
-        # Add to priority queue
-        for neighbor in G[cur_node]:
-            if(not visited[neighbor]):
-                queue.append([cur_length + G[cur_node][neighbor]['weight'], neighbor, cur_node])
-    
     # If path found, return path
     if(visited[end]):
         temp = end
