@@ -1,12 +1,16 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import tkinter as tk
-from tkinter import filedialog, messagebox
+from tkinter import filedialog, messagebox, ttk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 class GraphVisualizer:
     def __init__(self):
         self.root = tk.Tk()
+
+        self.notebook = ttk.Notebook(self.root)
+        self.notebook.pack(fill=tk.BOTH, expand=True)
+
         self.canvas = None
         self.G = None
         self.filename = None
@@ -15,12 +19,17 @@ class GraphVisualizer:
         self.create_gui()
         
     def create_gui(self):
+
+        # Create Page 1
+        page1 = tk.Frame(self.notebook)
+        page1.pack(fill=tk.BOTH, expand=True)
+
         # Frame
-        frame = tk.Frame(self.root)
+        frame = tk.Frame(page1)
         frame.pack(side=tk.TOP, pady=10)
 
         # Open button
-        open_button = tk.Button(frame, text="Open", command=self.open_file)
+        open_button = ttk.Button(frame, text="Open", command=self.open_file)
         open_button.pack(side=tk.LEFT, padx=10)
 
         # Draw button
@@ -39,17 +48,44 @@ class GraphVisualizer:
         self.end_entry = tk.Entry(frame, width=5)
         self.end_entry.pack(side=tk.LEFT)
 
+        # Create combobox for selecting graph type
+        self.graph_type_var = tk.StringVar()
+        # self.graph_type_var.set('bar')
+
+        graph_type_label = tk.Label(frame, text="Graph type:")
+        graph_type_label.pack(side=tk.LEFT, padx=10)
+        graph_type_combobox = ttk.Combobox(frame, textvariable=self.graph_type_var, values=['bar', 'line'], state="readonly")
+        graph_type_combobox.pack(side=tk.LEFT)
+
         # Create canvas for matplotlib graph
-        self.canvas = tk.Canvas(self.root, width=600, height=400, bg='white')
+        self.canvas = tk.Canvas(page1, width=600, height=400, bg='#A5C9CA')
         self.canvas.pack(side=tk.TOP, padx=10, pady=10)
         
         # Create label for total weight
-        self.weight_label = tk.Label(self.root, text="Total weight: ")
+        self.weight_label = tk.Label(page1, text="Total weight: ")
         self.weight_label.pack(side=tk.BOTTOM, padx=10, pady=10)
+
+        # Add Page 1 as a tab to the notebook
+        self.notebook.add(page1, text="Page 1")
+
+        # Create Page 2
+        page2 = tk.Frame(self.notebook)
+        page2.pack(fill=tk.BOTH, expand=True)
+
+        self.notebook.add(page2, text="Page 2ss")
+
+        # Add label to second page
+        label2 = tk.Label(page2, text="PAGE 2")
+        label2.pack()
         
     def open_file(self):
         # Open the file dialog to select a file
-        self.filename = filedialog.askopenfilename()
+        self.filename = filedialog.askopenfilename(
+            title="Select a file",
+            initialdir="/",
+            filetypes=[("Text files", "*.txt"), ("All files", "*.*")],
+            defaultextension=".txt"
+            )
         
     def draw_graph(self):
         # Read adjacency matrix from file
@@ -109,7 +145,9 @@ class GraphVisualizer:
         fig = plt.gcf()
         self.canvas = FigureCanvasTkAgg(fig, master=self.canvas)
         self.canvas.draw()
-        self.canvas.get_tk_widget().pack()
+        # self.canvas.get_tk_widget().pack()
+        self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+        self.canvas.get_tk_widget().configure(width=600, height=400)
                                         
     def run(self):
         self.root.mainloop()
