@@ -15,6 +15,7 @@ class GraphVisualizer:
     def __init__(self):
         self.window = Tk()
 
+        self.window.title("Shortest Path Visualizer")
         self.window.geometry("1080x600")
         self.window.configure(bg = "#FFFFFF")
         self.window.resizable(False, False)
@@ -272,7 +273,7 @@ class GraphVisualizer:
             weights = lines[i].split()
             for j in range(num_nodes):
                 if weights[j] != 'inf' and weights[j] != '0':
-                    weight = int(weights[j])
+                    weight = float(weights[j])
                     self.G.add_edge(i, j, weight=weight)
         
         # Get node names
@@ -290,8 +291,8 @@ class GraphVisualizer:
 
         nx.draw_networkx_nodes(self.G, self.pos, node_color='#1f78b4')
         nx.draw_networkx_edges(self.G, self.pos, edgelist=self.G.edges(), edge_color='lightgray')
-        nx.draw_networkx_labels(self.G, self.pos)
-        nx.draw_networkx_edge_labels(self.G, self.pos, edge_labels=nx.get_edge_attributes(self.G, 'weight'))
+        nx.draw_networkx_labels(self.G, self.pos, font_size=10)
+        nx.draw_networkx_edge_labels(self.G, self.pos, edge_labels=nx.get_edge_attributes(self.G, 'weight'), font_size=8)
         
         self.display_graph()
 
@@ -420,8 +421,8 @@ class GraphVisualizer:
         nx.draw_networkx_nodes(self.G, self.pos, node_color=node_color)
         nx.draw_networkx_edges(self.G, self.pos, edgelist=self.G.edges(), edge_color='lightgray')
         nx.draw_networkx_edges(self.G, self.pos, edgelist=path_edges, edge_color='r')
-        nx.draw_networkx_labels(self.G, self.pos)
-        nx.draw_networkx_edge_labels(self.G, self.pos, edge_labels=nx.get_edge_attributes(self.G, 'weight'))
+        nx.draw_networkx_labels(self.G, self.pos, font_size=10)
+        nx.draw_networkx_edge_labels(self.G, self.pos, edge_labels=nx.get_edge_attributes(self.G, 'weight'), font_size=8)
 
         # Display Cost
         shortest_path_weights = [self.G[u][v]['weight'] for u, v in path_edges]

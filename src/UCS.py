@@ -1,5 +1,3 @@
-import networkx as nx
-
 def UCS(G, start, end):
     # Init
     queue = []
