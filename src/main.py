@@ -357,7 +357,6 @@ class GraphVisualizer:
             self.draw_graph()
 
     def get_distance(self, coord1, coord2):
-        # Approximate radius of earth in km
         return geodesic(coord1,coord2).km
 
     def get_shortest_path(self):
