@@ -1,5 +1,5 @@
-inf 12 inf inf
-12 inf 9 11 8
-inf 9 inf 14 inf
-inf 11 14 inf 15
+0 12 0 0
+12 0 9 11 8
+0 9 0 14 0
+0 11 14 0 15
 dago ITB cisitu gedung_sate DU
