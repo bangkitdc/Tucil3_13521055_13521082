@@ -31,8 +31,8 @@ Searching for the shortest distance between 2 nodes is a problem that has existe
 ```
 
 ## Requirement Program
-* Python newest version.
-* matplotlib.
+* Python newest version
+* matplotlib
 * networkx
 * customtkinter, tkinter, tkintermapview
 
