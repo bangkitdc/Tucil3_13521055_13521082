@@ -357,29 +357,7 @@ class GraphVisualizer:
 
     def get_distance(self, coord1, coord2):
         # Approximate radius of earth in km
-        R = 6373.0
-
-        lat1, lon1 = coord1
-        lat2, lon2 = coord2
-
-        # Convert coordinates to radians
-        lat1 = radians(lat1)
-        lon1 = radians(lon1)
-        lat2 = radians(lat2)
-        lon2 = radians(lon2)
-
-        # Calculate the difference between the coordinates
-        delta_lon = lon2 - lon1
-        delta_lat = lat2 - lat1
-
-        # Apply the haversine formula
-        a = sin(delta_lat / 2)**2 + cos(lat1) * cos(lat2) * sin(delta_lon / 2)**2
-        c = 2 * atan2(sqrt(a), sqrt(1 - a))
-
-        # Calculate the distance in kilometers
-        distance = R * c
-
-        return distance
+        return geodesic(coord1,coord2).km
 
     def get_shortest_path(self):
         # Get the shortest path between the start and end nodes
