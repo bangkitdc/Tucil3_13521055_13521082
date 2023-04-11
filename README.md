@@ -1,5 +1,9 @@
 # UCS and A* Algorithm Implementation to Determine the Shortest Path
 
+<p align="center">
+    <img src="https://github.com/bangkitdc/Tucil3_13521055_13521082/blob/main/assets/stima3.gif" width=800>
+</p>
+
 ## About
 Searching for the shortest distance between 2 nodes is a problem that has existed for a long time. The implementation of this problem can be seen in everyday life, such as on Google Maps. In this program, the problem is solved using the Uniform-Cost Search algorithm and the A* algorithm.
 
