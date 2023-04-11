@@ -247,7 +247,7 @@ class GraphVisualizer:
         with open(self.filename) as f:
             lines = f.readlines()
 
-        num_rows = len(lines) - 1
+        num_rows = len(lines) - 2
         num_cols = len(lines[0].split())
 
         for line in lines:
@@ -258,7 +258,7 @@ class GraphVisualizer:
 
         # File format is proved
         # Set combobox
-        node_names = lines[-1].split()
+        node_names = lines[-2].split()
 
         self.combobox0.configure(state="normal", values=node_names)
         self.combobox1.configure(state="normal", values=node_names)
@@ -266,14 +266,19 @@ class GraphVisualizer:
         # Create new graph
         self.G = nx.DiGraph()
 
-        num_nodes = len(lines) - 1 # exclude last line (node_names)
+        num_nodes = len(lines) - 2 # exclude last 2 line (node_names, coords)
         self.G.add_nodes_from(range(num_nodes))
 
+        points = []
+        for point in lines[-1].split():
+            x, y = map(float, point.strip("()").split(","))
+            points.append((x, y))
+
         for i in range(num_nodes):
-            weights = lines[i].split()
+            inp = lines[i].split()
             for j in range(num_nodes):
-                if weights[j] != 'inf' and weights[j] != '0':
-                    weight = float(weights[j])
+                if inp[j] != 'inf' and inp[j] != '0':
+                    weight = self.get_distance(points[i], points[j])
                     self.G.add_edge(i, j, weight=weight)
         
         # Get node names
@@ -284,15 +289,16 @@ class GraphVisualizer:
         self.pos = nx.spring_layout(self.G)
 
         # Loop through nodes and get their positions
+        count = 0
         self.node_coords = {}
         for node in self.G.nodes():
-            x, y = self.pos[node]
-            self.node_coords[node] = (float(x), float(y))
+            self.node_coords[node] = points[count]
+            count += 1
 
         nx.draw_networkx_nodes(self.G, self.pos, node_color='#1f78b4')
         nx.draw_networkx_edges(self.G, self.pos, edgelist=self.G.edges(), edge_color='lightgray')
-        nx.draw_networkx_labels(self.G, self.pos, font_size=10)
-        nx.draw_networkx_edge_labels(self.G, self.pos, edge_labels=nx.get_edge_attributes(self.G, 'weight'), font_size=8)
+        nx.draw_networkx_labels(self.G, self.pos, font_size=8)
+        nx.draw_networkx_edge_labels(self.G, self.pos, edge_labels={(u, v): f"{w:.3f} km" for (u, v, w) in self.G.edges(data='weight')}, font_size=8)
         
         self.display_graph()
 
@@ -421,15 +427,15 @@ class GraphVisualizer:
         nx.draw_networkx_nodes(self.G, self.pos, node_color=node_color)
         nx.draw_networkx_edges(self.G, self.pos, edgelist=self.G.edges(), edge_color='lightgray')
         nx.draw_networkx_edges(self.G, self.pos, edgelist=path_edges, edge_color='r')
-        nx.draw_networkx_labels(self.G, self.pos, font_size=10)
-        nx.draw_networkx_edge_labels(self.G, self.pos, edge_labels=nx.get_edge_attributes(self.G, 'weight'), font_size=8)
+        nx.draw_networkx_labels(self.G, self.pos, font_size=8)
+        nx.draw_networkx_edge_labels(self.G, self.pos, edge_labels={(u, v): f"{w:.3f} km" for (u, v, w) in self.G.edges(data='weight')}, font_size=8)
 
         # Display Cost
         shortest_path_weights = [self.G[u][v]['weight'] for u, v in path_edges]
         total_weight = sum(shortest_path_weights)
 
         self.entry1.delete(0, END)
-        self.entry1.insert(0, str(total_weight))
+        self.entry1.insert(0, str(round(total_weight, 5)) + " km")
 
         # Display Route
         path_str = ' → '.join(shortest_path)
