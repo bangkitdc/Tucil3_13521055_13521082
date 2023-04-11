@@ -292,6 +292,7 @@ class GraphVisualizer:
         count = 0
         self.node_coords = {}
         for node in self.G.nodes():
+            print(node)
             self.node_coords[node] = points[count]
             count += 1
 
