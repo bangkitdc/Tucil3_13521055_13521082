@@ -332,11 +332,15 @@ class GraphVisualizer:
             return
 
         if (self.bonus):
+            # reset color
+            for i in self.G.edges():
+                self.map_widget.set_path([self.node_coords[i[0]],self.node_coords[i[1]]])
+                
             shortest_path = self.get_shortest_path()
 
             if (shortest_path == -1):
                 return
-
+            
             total_weight = 0
             # Update graph
             for i in range(len(shortest_path)-1):
@@ -554,6 +558,8 @@ class GraphVisualizer:
     def clear_marker_event(self):
         self.map_widget.delete_all_marker()
         self.countMarker = 0
+        self.map_widget.delete_all_path()
+        self.G.clear()
 
     def search_event(self, event=None):
         self.map_widget.set_address(self.entry_search.get())
