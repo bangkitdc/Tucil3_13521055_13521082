@@ -43,7 +43,7 @@ Run main.py in src directory using `cd src`, `python main.py`
 * The test file represents a graph with N nodes. 
 * The first N lines correspond to an N x N adjacency matrix. 
 * The next line contains N strings separated by a space representing a node's name in order. 
-* The final line contains N coordinates of each node in order with the structure of (<lat>,<lng>) where <lat> is the coordinate's latitude value and <lng> is the coordinate's longitude value.
+* The final line contains N coordinates of each node in order with the structure of (lat,lng) where lat is the coordinate's latitude value and lng is the coordinate's longitude value.
 * Note : a weighted matrix is not used due to it's redundancy (the coordinates implies weight for each edges)
 
 ## Authors
