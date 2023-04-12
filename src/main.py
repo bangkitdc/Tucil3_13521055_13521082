@@ -292,6 +292,7 @@ class GraphVisualizer:
         count = 0
         self.node_coords = {}
         for node in self.G.nodes():
+            print(node)
             self.node_coords[node] = points[count]
             count += 1
 
@@ -360,7 +361,6 @@ class GraphVisualizer:
             self.draw_graph()
 
     def get_distance(self, coord1, coord2):
-        # Approximate radius of earth in km
         return geodesic(coord1,coord2).km
 
     def get_shortest_path(self):
